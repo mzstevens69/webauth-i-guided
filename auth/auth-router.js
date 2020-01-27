@@ -41,6 +41,10 @@ router.post('/login', (req, res) => {
       if (user && bcrypt.compareSync(password, user.password)) {
         // if the password likez
         // let's generate a unique id to simbolize this "login"
+        // let's shove this sessionId into the sessions array
+        // let's do a Set-Cookie with the sessionId
+        // this way the client will send back the sessionId
+        // automagically (with subsequent requests)!
         const sessionId = uuid();
         activeSessions.push(sessionId);
         res.cookie('sessionId', sessionId, { maxAge: 900000 });
