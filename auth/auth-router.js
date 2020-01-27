@@ -54,4 +54,20 @@ router.post('/login', (req, res) => {
     });
 });
 
+function protected(req, res, next) {
+  // let's pull the session id from the Cookie header
+  // if the id is there, let's see if that id exists inside activeSessions
+  // if it does next();
+  if (activeSessions.includes(req.cookies.sessionId)) {
+    next()
+  } else {
+    res.status(401).json({
+      message: `
+        Your cookie is either not there, or it contains no valid sessionId
+    `})
+  }
+}
+
+router.protected = protected;
+
 module.exports = router;
